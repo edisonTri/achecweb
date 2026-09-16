@@ -1,109 +1,45 @@
-const header = document.getElementById('siteHeader');
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-const searchModal = document.getElementById('searchModal');
-const contentModal = document.getElementById('contentModal');
-const searchOpen = document.getElementById('searchOpen');
-const searchClose = document.getElementById('searchClose');
-const contentClose = document.getElementById('contentClose');
-const contentScroll = document.getElementById('contentScroll');
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
-window.addEventListener('scroll', () => {
-  header.classList.toggle('scrolled', window.scrollY > 40);
-});
-
-menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
-
-function openModal(modal){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-function closeModal(modal){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-
-searchOpen.addEventListener('click', () => openModal(searchModal));
-searchClose.addEventListener('click', () => closeModal(searchModal));
-contentClose.addEventListener('click', () => closeModal(contentModal));
-
-[searchModal, contentModal].forEach(m => m.addEventListener('click', e => {
-  if (e.target === m) closeModal(m);
-}));
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeModal(searchModal);
-    closeModal(contentModal);
-  }
-});
-
-const fallbackBody = (title) => `
-  <div class="article-meta">Contenido editable</div>
-  <div class="article-cat">ACHEC</div>
-  <h1 class="article-title">${title}</h1>
-  <p class="article-copy">
-    Este bloque está preparado para mostrar la información completa dentro del sitio ACHEC,
-    sin sacar al usuario de la página principal. Reemplaza este texto por el contenido real
-    de la publicación, artículo o recurso.
-  </p>
-  <p class="article-copy">
-    Puedes incluir varios párrafos, subtítulos, imágenes, documentos, enlaces de referencia y
-    material complementario. El contenido se presenta primero y los enlaces externos o el PDF
-    aparecen al final para que la persona decida si quiere continuar hacia la fuente original.
-  </p>
-  <div class="article-actions">
-    <button type="button" onclick="closeModal(contentModal)">Cerrar</button>
-  </div>
-`;
-
-function openContentFromElement(el){
-  const title = el.dataset.modalTitle || el.querySelector('h3')?.textContent?.trim() || 'Contenido ACHEC';
-  const cat = el.dataset.modalCat || 'ACTUALIDAD';
-  const date = el.dataset.modalDate || '';
-  const pdf = el.dataset.modalPdf || '';
-  const customBody = el.dataset.modalBody;
-
-  contentScroll.innerHTML = `
-    <div class="article-meta">${date}</div>
-    <div class="article-cat">${cat}</div>
-    <h1 class="article-title">${title}</h1>
-    <img class="article-image" src="${el.querySelector('img')?.src || 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600&q=85'}" alt="">
-    <div class="article-copy">
-      ${customBody ? `<p>${customBody}</p>` : fallbackBody(title)}
-      ${pdf ? `<div class="article-actions">
-        <a href="${pdf}" target="_blank" rel="noopener noreferrer">Ver PDF ↗</a>
-        <a href="${pdf}" download>Descargar PDF</a>
-      </div>` : `
-        <div class="article-actions">
-          <a href="https://achec.cl/" target="_blank" rel="noopener noreferrer">Ver información original ↗</a>
-        </div>
-      `}
-    </div>
-  `;
-  openModal(contentModal);
+function Header(){
+  return (
+    <header style={{background:'#0a192f', color:'white', position:'sticky', top:0, zIndex:50}}>
+      <div style={{maxWidth:'1200px', margin:'0 auto', padding:'16px 24px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+        <Link to="/" style={{color:'white', textDecoration:'none', fontWeight:900, fontSize:'24px'}}>ACHEC.cl</Link>
+        <Link to="/hazte-socio" style={{background:'white', color:'#0a192f', padding:'8px 18px', borderRadius:'20px', textDecoration:'none', fontWeight:800, fontSize:'12px'}}>HAZTE SOCIO</Link>
+      </div>
+    </header>
+  )
 }
 
-document.querySelectorAll('.news-card').forEach(card => {
-  card.addEventListener('click', (e) => {
-    if (e.target.closest('a')) return;
-    openContentFromElement(card);
-  });
-});
+function Home(){
+  return (
+    <div>
+      <div style={{background:'#0a192f', color:'white', padding:'80px 24px', textAlign:'center'}}>
+        <h1 style={{fontSize:'52px', fontWeight:900, lineHeight:1}}>Más de 200 escuelas<br/>forman parte de<br/>nuestra asociación</h1>
+        <p style={{color:'#8892b0', marginTop:'16px'}}>Desde 1995 formando conductores íntegros para salvar vidas.</p>
+        <Link to="/institucional" style={{display:'inline-block', marginTop:'20px', background:'#64ffda', color:'#0a192f', padding:'12px 24px', borderRadius:'24px', textDecoration:'none', fontWeight:800}}>Conoce más</Link>
+      </div>
+      <div style={{maxWidth:'900px', margin:'40px auto', padding:'0 24px', display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'16px'}}>
+        <div style={{border:'1px solid #e2e8f0', borderRadius:'12px', padding:'20px'}}><h3>Decreto 39</h3><p style={{color:'#64748b', fontSize:'14px'}}>No profesionales</p></div>
+        <div style={{border:'1px solid #e2e8f0', borderRadius:'12px', padding:'20px'}}><h3>Decreto 251</h3><p style={{color:'#64748b', fontSize:'14px'}}>Profesionales</p></div>
+        <div style={{border:'1px solid #e2e8f0', borderRadius:'12px', padding:'20px'}}><h3>CONASET</h3><p style={{color:'#64748b', fontSize:'14px'}}>Seguridad Vial</p></div>
+      </div>
+    </div>
+  )
+}
 
-document.querySelectorAll('[data-modal-title]:not(.news-card)').forEach(el => {
-  el.addEventListener('click', () => openContentFromElement(el));
-});
-
-document.querySelectorAll('.play-btn').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.stopPropagation();
-    openContentFromElement(btn.closest('.video-card'));
-  });
-});
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, {threshold:.12});
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+function App(){
+  return (
+    <Router>
+      <div style={{fontFamily:'system-ui, sans-serif', background:'white'}}>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="*" element={<div style={{padding:'60px', textAlign:'center'}}><h2>ACHEC</h2><Link to="/">Volver al inicio</Link></div>} />
+        </Routes>
+        <footer style={{background:'#0a192f', color:'#8892b0', padding:'20px', textAlign:'center', marginTop:'60px'}}>ACHEC A.G. © 2026</footer>
+      </div>
+    </Router>
+  );
+}
