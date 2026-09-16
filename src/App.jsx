@@ -1,9 +1,81 @@
-export default function App(){
+import { Toaster } from "@/components/ui/toaster"
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClientInstance } from '@/lib/query-client'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PageNotFound from './lib/PageNotFound';
+import { AuthProvider, useAuth } from '@/lib/AuthContext';
+import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import ScrollToTop from './components/ScrollToTop';
+import Home from './pages/Home';
+import NewsArticle from './pages/NewsArticle';
+import InstitucionalMinisterio from './pages/InstitucionalMinisterio';
+import InstitucionalConaset from './pages/InstitucionalConaset';
+import Actualidad from './pages/Actualidad';
+import EducacionVial from './pages/EducacionVial';
+import SeguridadVial from './pages/SeguridadVial';
+import Recursos from './pages/Recursos';
+import Achec from './pages/Achec';
+import Contacto from './pages/Contacto';
+import HazteSocio from './pages/HazteSocio';
+// Add page imports here
+
+const AuthenticatedApp = () => {
+  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+
+  // Show loading spinner while checking app public settings or auth
+  if (isLoadingPublicSettings || isLoadingAuth) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  // Handle authentication errors
+  if (authError) {
+    if (authError.type === 'user_not_registered') {
+      return <UserNotRegisteredError />;
+    } else if (authError.type === 'auth_required') {
+      // Redirect to login automatically
+      navigateToLogin();
+      return null;
+    }
+  }
+
+  // Render the main app
   return (
-    <div style={{padding:'50px', fontFamily:'sans-serif'}}>
-      <h1>ACHEC - Sitio en construcción</h1>
-      <p>Si ves esto, el deploy funciona </p>
-      <p>Estamos arreglando los componentes</p>
-    </div>
+    <Routes>
+      {/* Add your page Route elements here */}
+      <Route path="/" element={<Home />} />
+      <Route path="/actualidad" element={<Actualidad />} />
+      <Route path="/actualidad/:slug" element={<NewsArticle />} />
+      <Route path="/educacion-vial" element={<EducacionVial />} />
+      <Route path="/seguridad-vial" element={<SeguridadVial />} />
+      <Route path="/recursos" element={<Recursos />} />
+      <Route path="/achec" element={<Achec />} />
+      <Route path="/contacto" element={<Contacto />} />
+      <Route path="/hazte-socio" element={<HazteSocio />} />
+      <Route path="/institucional/achec-ministerio-transportes" element={<InstitucionalMinisterio />} />
+      <Route path="/institucional/achec-conaset" element={<InstitucionalConaset />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
+  );
+};
+
+
+function App() {
+
+  return (
+    <AuthProvider>
+      <QueryClientProvider client={queryClientInstance}>
+        <Router>
+          <ScrollToTop />
+          <AuthenticatedApp />
+        </Router>
+        <Toaster />
+      </QueryClientProvider>
+    </AuthProvider>
   )
 }
+
+export default App
