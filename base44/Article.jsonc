@@ -1,0 +1,53 @@
+{
+  "name": "Article",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "T\u00edtulo",
+      "description": "T\u00edtulo del reportaje o contenido destacado"
+    },
+    "slug": {
+      "type": "string",
+      "title": "URL amigable",
+      "description": "Identificador para la URL"
+    },
+    "excerpt": {
+      "type": "string",
+      "title": "Extracto",
+      "description": "Resumen corto"
+    },
+    "content": {
+      "type": "string",
+      "title": "Contenido",
+      "description": "Contenido completo (HTML o texto)"
+    },
+    "image": {
+      "type": "string",
+      "title": "Imagen",
+      "description": "URL de la imagen principal"
+    },
+    "author": {
+      "type": "string",
+      "title": "Autor"
+    },
+    "publish_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Fecha de publicaci\u00f3n"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Etiquetas",
+      "description": "Etiquetas o temas relacionados"
+    }
+  },
+  "required": [
+    "title",
+    "excerpt",
+    "publish_date"
+  ]
+}
