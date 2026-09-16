@@ -1,0 +1,74 @@
+{
+  "name": "News",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Titular",
+      "description": "Titular de la noticia"
+    },
+    "slug": {
+      "type": "string",
+      "title": "URL amigable",
+      "description": "Identificador para la URL (ej: nueva-normativa-2025)"
+    },
+    "category": {
+      "type": "string",
+      "title": "Categor\u00eda",
+      "enum": [
+        "INSTITUCIONAL",
+        "SEGURIDAD VIAL",
+        "EDUCACI\u00d3N VIAL",
+        "NORMATIVA",
+        "MOVILIDAD",
+        "ACTUALIDAD"
+      ],
+      "default": "ACTUALIDAD"
+    },
+    "excerpt": {
+      "type": "string",
+      "title": "Extracto",
+      "description": "Resumen corto que aparece en las tarjetas"
+    },
+    "content": {
+      "type": "string",
+      "title": "Contenido",
+      "description": "Contenido completo del art\u00edculo (HTML o texto)"
+    },
+    "image": {
+      "type": "string",
+      "title": "Imagen",
+      "description": "URL de la imagen principal"
+    },
+    "author": {
+      "type": "string",
+      "title": "Autor",
+      "description": "Nombre del autor o fuente"
+    },
+    "publish_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Fecha de publicaci\u00f3n"
+    },
+    "featured": {
+      "type": "boolean",
+      "title": "Destacada",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "title": "Estado",
+      "enum": [
+        "draft",
+        "published"
+      ],
+      "default": "published"
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "excerpt",
+    "publish_date"
+  ]
+}
