@@ -1,0 +1,54 @@
+{
+  "name": "Resource",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "T\u00edtulo",
+      "description": "Nombre del recurso"
+    },
+    "type": {
+      "type": "string",
+      "title": "Tipo",
+      "enum": [
+        "MANUALES",
+        "VIDEOS",
+        "TESTS",
+        "DOCUMENTOS",
+        "ESTUDIOS",
+        "NORMATIVA"
+      ],
+      "default": "MANUALES"
+    },
+    "description": {
+      "type": "string",
+      "title": "Descripci\u00f3n",
+      "description": "Descripci\u00f3n corta del recurso"
+    },
+    "image": {
+      "type": "string",
+      "title": "Imagen",
+      "description": "URL de imagen de portada"
+    },
+    "file_url": {
+      "type": "string",
+      "title": "Archivo / URL",
+      "description": "URL del archivo descargable o enlace"
+    },
+    "category": {
+      "type": "string",
+      "title": "Categor\u00eda",
+      "description": "Categor\u00eda espec\u00edfica (ej: Educaci\u00f3n vial, Normativa)"
+    },
+    "featured": {
+      "type": "boolean",
+      "title": "Destacado",
+      "default": false
+    }
+  },
+  "required": [
+    "title",
+    "type",
+    "description"
+  ]
+}
