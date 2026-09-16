@@ -1,0 +1,52 @@
+{
+  "name": "Event",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "T\u00edtulo",
+      "description": "Nombre del evento o encuentro"
+    },
+    "description": {
+      "type": "string",
+      "title": "Descripci\u00f3n"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Fecha"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Fecha de t\u00e9rmino"
+    },
+    "location": {
+      "type": "string",
+      "title": "Lugar"
+    },
+    "image": {
+      "type": "string",
+      "title": "Imagen"
+    },
+    "category": {
+      "type": "string",
+      "title": "Categor\u00eda",
+      "description": "Tipo de evento (encuentro, capacitaci\u00f3n, seminario)"
+    },
+    "status": {
+      "type": "string",
+      "title": "Estado",
+      "enum": [
+        "upcoming",
+        "ongoing",
+        "past"
+      ],
+      "default": "upcoming"
+    }
+  },
+  "required": [
+    "title",
+    "date"
+  ]
+}
